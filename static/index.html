@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LearnNook - Your Personal Digital Storybook</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Be+Vietnam+Pro:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "inverse-on-surface": "#faf0db",
+          "on-primary": "#ffffff",
+          "outline-variant": "#d8c2bd",
+          "on-secondary-fixed-variant": "#5a4230",
+          "on-secondary-container": "#785d4a",
+          "on-primary-container": "#6d3429",
+          "surface-dim": "#e3d9c5",
+          "on-primary-fixed": "#390c05",
+          "on-surface": "#1f1b0f",
+          "secondary-fixed": "#ffdcc4",
+          "background": "#fff8f0",
+          "outline": "#86736f",
+          "on-error-container": "#93000a",
+          "surface-container-low": "#fdf3de",
+          "on-secondary": "#ffffff",
+          "tertiary": "#675684",
+          "surface-container-high": "#f1e7d3",
+          "secondary": "#735946",
+          "surface-container-highest": "#ebe2cd",
+          "tertiary-fixed-dim": "#d2bef2",
+          "surface-container-lowest": "#ffffff",
+          "surface-variant": "#ebe2cd",
+          "on-error": "#ffffff",
+          "tertiary-fixed": "#ebdcff",
+          "surface-tint": "#8c4d40",
+          "primary-fixed-dim": "#ffb4a5",
+          "on-tertiary-fixed-variant": "#4f3f6a",
+          "on-background": "#1f1b0f",
+          "surface-container": "#f7edd8",
+          "on-secondary-fixed": "#2a1709",
+          "tertiary-container": "#bdaadd",
+          "surface": "#fff8f0",
+          "inverse-surface": "#353022",
+          "primary-container": "#ee9e8e",
+          "error-container": "#ffdad6",
+          "secondary-container": "#fdd9c1",
+          "on-surface-variant": "#534340",
+          "inverse-primary": "#ffb4a5",
+          "secondary-fixed-dim": "#e2c0a9",
+          "surface-bright": "#fff8f0",
+          "on-tertiary-fixed": "#22133c",
+          "on-tertiary": "#ffffff",
+          "on-tertiary-container": "#4d3d68",
+          "error": "#ba1a1a",
+          "primary-fixed": "#ffdad3",
+          "primary": "#8c4d40",
+          "on-primary-fixed-variant": "#70362b"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "fontFamily": {
+          "headline": ["Plus Jakarta Sans"],
+          "body": ["Be Vietnam Pro"],
+          "label": ["Be Vietnam Pro"]
+        }
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+  .glass-header {
+    background: rgba(255, 248, 240, 0.8);
+    backdrop-filter: blur(12px);
+  }
+  .pill-gradient {
+    background: radial-gradient(circle at center, #8c4d40, #ee9e8e);
+  }
+  .score-shadow {
+    text-shadow: 0px 4px 12px rgba(140, 77, 64, 0.15);
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  /* Rich Text Styling */
+  .highlight-text {
+    background: linear-gradient(120deg, rgba(238, 158, 142, 0.3) 0%, rgba(238, 158, 142, 0.2) 100%);
+    padding: 0.1em 0.3em;
+    border-bottom: 2px solid rgba(140, 77, 64, 0.3);
+    border-radius: 4px;
+    font-weight: 600;
+    color: #8c4d40;
+  }
+  .section-divider {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(140, 77, 64, 0), rgba(140, 77, 64, 0.2), rgba(140, 77, 64, 0));
+    margin: 2.5rem 0;
+  }
+  #explanation-text strong {
+    color: #8c4d40;
+    font-family: inherit;
+    font-weight: 800;
+  }
+  #explanation-text h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #8c4d40;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    letter-spacing: -0.01em;
+  }
+  #explanation-text {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+  }
+  #explanation-text p {
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    text-align: justify !important;
+    hyphens: auto;
+  }
+  .hint-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: rgba(140, 77, 64, 0.05);
+    color: #8c4d40;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: 1px solid rgba(140, 77, 64, 0.1);
+  }
+  .hint-btn:hover {
+    background: rgba(140, 77, 64, 0.1);
+  }
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+
+<!-- TOP APP BAR -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass-header border-b border-outline-variant/10">
+  <div class="flex flex-col items-center w-full px-6 py-4 max-w-[640px] mx-auto">
+    <div class="flex items-center justify-between w-full">
+      <div class="flex items-center gap-3">
+        <div class="bg-primary px-3 py-1 rounded-full shadow-sm">
+          <span class="font-headline font-extrabold text-white tracking-tighter text-lg">LN</span>
+        </div>
+        <span class="text-2xl font-extrabold text-[#8c4d40] font-headline tracking-tight">LearnNook</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="material-symbols-outlined text-primary cursor-pointer text-[28px]">account_circle</span>
+      </div>
+    </div>
+    <!-- Step Navigation Pills -->
+    <div class="flex gap-6 mt-6 w-full justify-center overflow-x-auto no-scrollbar">
+      <span id="label-setup" class="font-headline font-bold tracking-tight text-primary transition-colors border-b-4 border-primary pb-1">Setup</span>
+      <span id="label-learn" class="font-headline font-bold tracking-tight text-on-surface/50 transition-colors pb-1">Learn</span>
+      <span id="label-quiz" class="font-headline font-bold tracking-tight text-on-surface/50 transition-colors pb-1">Quiz</span>
+      <span id="label-results" class="font-headline font-bold tracking-tight text-on-surface/50 transition-colors pb-1">Results</span>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-32 pb-32 px-6 flex flex-col items-center max-w-[640px] mx-auto min-h-screen">
+
+  <!-- SCREEN 1: SETUP -->
+  <div id="card-setup" class="w-full active-card">
+    <div class="w-full mb-10 overflow-hidden rounded-lg">
+      <img alt="Whimsical workspace" class="w-full h-48 object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwXUtbYn2J_BxNBveuo9lmR-Yub82pw1iSZovsXnvBE3g_h66GVwW2F6G5duif1MvPf_FQG-I6s2XzXfCqc4pYy4UuhQybWsh_aDbaVVeAtG_LO9ZWYNC9Or1YXU2rhA7hdxGeypKAe5ypH-q7_rnLBGx9MI9zxRGJJ9G2PoQhttmhP4eLhNZU_Lo8qkBBTOJSkysfLISuytdgr91Ccky5Rgjp_86BsRitqv2dpmmZ9axafxwNlz4AFKhHW8xI-isVZyRF36cv0q8"/>
+    </div>
+    <section class="w-full bg-secondary-container p-8 rounded-lg">
+      <div class="flex flex-col gap-8">
+        <header class="text-center">
+          <h1 class="font-headline text-3xl font-extrabold text-on-surface tracking-tight leading-tight">What do you want to learn today?</h1>
+          <p class="text-on-surface-variant/70 mt-2 font-medium">Configure your personal digital storybook.</p>
+        </header>
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-2">
+            <label class="font-label text-sm font-semibold text-on-secondary-container px-1">Grade Level</label>
+            <div class="relative">
+              <select id="grade" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg py-4 px-5 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body text-on-surface">
+                <option value="5th">Grade 5</option><option value="6th">Grade 6</option><option value="7th">Grade 7</option>
+                <option value="8th" selected>Grade 8</option><option value="9th">Grade 9</option><option value="10th">Grade 10</option>
+              </select>
+              <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant/50">expand_more</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="font-label text-sm font-semibold text-on-secondary-container px-1">Subject</label>
+            <div class="relative">
+              <select id="subject" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg py-4 px-5 appearance-none focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body text-on-surface">
+                <option>Science</option><option>Mathematics</option><option>Literature</option><option>History</option>
+              </select>
+              <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant/50">science</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="font-label text-sm font-semibold text-on-secondary-container px-1">Specific Topic</label>
+            <input id="topic" class="w-full bg-surface-container-lowest border border-outline-variant/20 rounded-lg py-4 px-5 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all font-body text-on-surface placeholder:text-on-surface-variant/40" placeholder="e.g. Photosynthesis" type="text"/>
+          </div>
+          <button onclick="startLesson()" class="w-full mt-4 py-5 bg-gradient-to-r from-primary to-primary-container rounded-full text-white font-headline font-extrabold text-lg shadow-[0px_8px_24px_rgba(140,77,64,0.2)] active:scale-95 transition-transform flex items-center justify-center gap-2">
+            Start Learning <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SCREEN: LOADING -->
+  <div id="card-loading" class="hidden w-full flex-col items-center">
+    <div class="mt-12 overflow-hidden rounded-lg bg-surface-container-low p-12 text-center w-full">
+      <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mb-6"></div>
+      <h2 id="loading-msg" class="font-headline text-2xl font-bold text-on-surface">Summoning tutor...</h2>
+      <p class="text-on-surface-variant/70 mt-3">Setting up your cozy study corner</p>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: LEARN -->
+  <div id="card-learn" class="hidden w-full">
+    <header class="mb-8">
+      <span id="lesson-badge" class="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-sm font-medium tracking-wide mb-4">Biology</span>
+      <h1 id="lesson-title" class="text-4xl font-extrabold tracking-tight text-on-surface leading-[1.1] mb-6">Topic Title</h1>
+      <div class="aspect-[16/9] w-full rounded-lg overflow-hidden mb-8 bg-surface-container-low shadow-sm relative">
+        <img id="lesson-img" class="w-full h-full object-cover hidden" src="" />
+        <div id="lesson-img-fallback" class="w-full h-full flex items-center justify-center text-on-surface-variant bg-surface-container-high slide-up">
+          <div class="flex flex-col items-center gap-2">
+            <span class="material-symbols-outlined text-4xl opacity-20">image_not_supported</span>
+            <span class="text-sm font-medium opacity-50">Image unavailable</span>
+          </div>
+        </div>
+      </div>
+    </header>
+    <article class="bg-[#FFF5E0] p-8 rounded-lg border border-outline-variant/20 shadow-sm mb-12">
+      <div id="explanation-text" class="text-on-surface-variant leading-relaxed text-lg space-y-4"></div>
+    </article>
+    <div class="flex justify-start px-2 mb-10">
+      <button onclick="toggleJson()" class="text-sm font-mono text-on-surface-variant/40 hover:text-primary transition-colors flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">code</span> { } View JSON
+      </button>
+      <pre id="json-preview" class="hidden p-4 bg-white rounded-lg text-xs font-mono overflow-auto mt-4 w-full"></pre>
+    </div>
+    <button onclick="initQuiz()" class="w-full py-5 px-8 rounded-full bg-gradient-to-r from-primary to-primary-container text-white text-xl font-bold flex items-center justify-center gap-3 shadow-[0px_20px_40px_rgba(31,27,15,0.08)] active:scale-95 transition-transform">
+      Take the Quiz <span class="material-symbols-outlined">arrow_forward</span>
+    </button>
+  </div>
+
+  <!-- SCREEN 3: QUIZ -->
+  <div id="card-quiz" class="hidden w-full">
+    <div class="mb-8">
+      <div class="flex justify-between items-end mb-3">
+        <span id="quiz-progress-text" class="text-sm font-medium text-on-surface-variant opacity-45 font-label">Question 1 of 5</span>
+        <span id="quiz-topic-label" class="text-xs font-bold text-primary tracking-widest uppercase">Biology</span>
+      </div>
+      <div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden relative">
+        <div id="progress-bar" class="absolute top-0 left-0 h-full bg-primary-container transition-all duration-300" style="width: 20%;"></div>
+      </div>
+    </div>
+    <section class="mb-10">
+      <div class="bg-secondary-container p-8 rounded-lg shadow-sm">
+        <div id="q-difficulty-pill" class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 bg-primary/10 text-primary">Medium</div>
+        <h1 id="question-text" class="text-2xl md:text-3xl font-headline font-bold text-on-secondary-container leading-tight">Question text goes here?</h1>
+        <div class="mt-4 flex justify-start">
+          <button id="hint-trigger" onclick="toggleHint()" class="hint-btn">
+            <span class="material-symbols-outlined text-sm">lightbulb</span> Help with this?
+          </button>
+        </div>
+      </div>
+    </section>
+    <section id="options-container" class="space-y-4"></section>
+    <div id="hint-container" class="hidden mt-6 p-4 bg-surface-container-low rounded-lg italic text-on-surface-variant text-sm text-center border-l-4 border-primary"></div>
+    <div id="explanation-container" class="hidden mt-6 p-5 bg-primary-container/20 rounded-lg text-on-primary-container text-sm border-l-4 border-primary"></div>
+    <div class="mt-12 flex justify-end">
+      <button id="next-btn" onclick="handleNext()" class="invisible pill-gradient px-8 py-4 rounded-xl text-on-primary font-headline font-bold flex items-center gap-2 shadow-lg hover:brightness-110 active:scale-95 transition-all">
+        Next <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: RESULTS -->
+  <div id="card-results" class="hidden w-full">
+    <div class="flex flex-col items-center text-center mb-10">
+      <div class="relative w-48 h-48 flex items-center justify-center mb-6">
+        <svg class="absolute w-full h-full -rotate-90">
+          <circle class="text-surface-container-highest" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+          <circle id="score-circle" class="text-primary" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="552.92" stroke-linecap="round" stroke-width="12 transition-all duration-1000"></circle>
+        </svg>
+        <div class="flex flex-col items-center">
+          <span id="score-display" class="text-6xl font-[800] text-[#190933] score-shadow leading-none">0/5</span>
+          <span class="text-sm font-label font-medium text-on-surface-variant/60 mt-1 uppercase tracking-tighter">Total Score</span>
+        </div>
+      </div>
+      <div class="bg-secondary-container p-8 rounded-lg w-full mb-8 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-1 h-full bg-primary/20"></div>
+        <h2 id="feedback-headline" class="font-headline font-bold text-xl text-on-secondary-container mb-2 text-left">Almost there!</h2>
+        <p id="overall-feedback" class="text-left text-on-secondary-container leading-relaxed"></p>
+      </div>
+    </div>
+    <div id="results-list" class="space-y-4"></div>
+    <div class="mt-12 flex flex-col items-center">
+      <button onclick="location.reload()" class="w-full max-w-sm bg-gradient-to-r from-primary to-primary-container text-white font-headline font-bold py-5 px-8 rounded-full shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 group">
+        Try Another Topic <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+
+</main>
+
+<!-- BACKGROUND SHAPES -->
+<div class="fixed top-[-10%] right-[-5%] w-[300px] h-[300px] bg-primary-container/20 blur-[80px] rounded-full -z-10"></div>
+<div class="fixed bottom-[5%] left-[-10%] w-[250px] h-[250px] bg-secondary-container/30 blur-[60px] rounded-full -z-10"></div>
+
+<script>
+const API_BASE = window.location.origin;
+let state = {
+  grade: '', subject: '', topic: '',
+  sessionId: '', explanation: '',
+  imageUrl: '', questions: [],
+  currentQuestionIndex: 0,
+  userAnswers: [],
+  isAnswered: false,
+  selectedOption: null
+};
+
+function showCard(id) {
+  ['card-setup','card-loading','card-learn','card-quiz','card-results'].forEach(c => document.getElementById(c).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function toggleHint() {
+  const el = document.getElementById('hint-container');
+  el.classList.toggle('hidden');
+}
+
+function formatExplanation(text) {
+  if (!text) return "";
+  
+  // 1. Handle Dividers (---) - more robust regex
+  let html = text.replace(/(\n|^)\s*---\s*(\n|$)/g, '<hr class="section-divider">');
+  
+  // 2. Handle Subheadings (### text)
+  html = html.replace(/### (.*?)\n/g, '<h3>$1</h3>');
+  html = html.replace(/### (.*?)$/g, '<h3>$1</h3>'); // Catch if at the very end
+  
+  // 3. Handle Bold (**text**) - still supported as fallback
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // 4. Handle Highlights (==text==)
+  html = html.replace(/==(.*?)==/g, '<span class="highlight-text">$1</span>');
+  
+  // 5. Handle Paragraphs (Double newlines)
+  // Split by double newlines and wrap in <p> if not already a header/divider
+  let blocks = html.split(/\n\n+/);
+  html = blocks.map(block => {
+    if (block.startsWith('<h3>') || block.startsWith('<hr')) {
+      return block;
+    }
+    return `<p>${block.replace(/\n/g, ' ')}</p>`;
+  }).join('');
+  
+  return html;
+}
+
+function updateSteps(n) {
+  const ids = ['setup', 'learn', 'quiz', 'results'];
+  ids.forEach((id, i) => {
+    const el = document.getElementById(`label-${id}`);
+    el.classList.remove('text-primary', 'border-primary', 'border-b-4', 'text-on-surface/50');
+    if (i === n - 1) {
+      el.classList.add('text-primary', 'border-primary', 'border-b-4');
+    } else {
+      el.classList.add('text-on-surface/50');
+    }
+  });
+}
+
+async function startLesson() {
+  const grade = document.getElementById('grade').value;
+  const subject = document.getElementById('subject').value;
+  const topic = document.getElementById('topic').value.trim();
+  if (!topic) return;
+
+  state.grade = grade; state.subject = subject; state.topic = topic;
+  showCard('card-loading');
+  updateSteps(2);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/session/start`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ class_grade: grade, subject, topic })
+    });
+    const data = await res.json();
+    state.sessionId = data.session_id;
+    state.explanation = data.explanation;
+    state.imageUrl = data.image_url;
+    state.questions = data.questions;
+
+    document.getElementById('lesson-badge').innerText = subject;
+    document.getElementById('lesson-title').innerText = topic;
+    document.getElementById('explanation-text').innerHTML = formatExplanation(data.explanation);
+    
+    // Improved Image Loading Logic
+    const img = document.getElementById('lesson-img');
+    const fallback = document.getElementById('lesson-img-fallback');
+    
+    if (data.image_url) {
+      img.onload = () => {
+        img.classList.remove('hidden');
+        fallback.classList.add('hidden');
+      };
+      img.onerror = () => {
+        img.classList.add('hidden');
+        fallback.classList.remove('hidden');
+        console.error("Failed to load image:", data.image_url);
+      };
+      img.src = data.image_url;
+    } else {
+      img.classList.add('hidden');
+      fallback.classList.remove('hidden');
+    }
+    
+    // Sanitize JSON preview to hide quiz answers
+    const sanitized = JSON.parse(JSON.stringify(data));
+    if (sanitized.questions) {
+      sanitized.questions = sanitized.questions.map(q => {
+        const copy = {...q};
+        delete copy.correct_index;
+        delete copy.explanation;
+        return copy;
+      });
+    }
+    document.getElementById('json-preview').innerText = JSON.stringify(sanitized, null, 2);
+    showCard('card-learn');
+  } catch (e) {
+    alert('Error connecting to backend!');
+    showCard('card-setup');
+    updateSteps(1);
+  }
+}
+
+function initQuiz() {
+  state.currentQuestionIndex = 0;
+  state.userAnswers = [];
+  updateSteps(3);
+  renderQuestion();
+  showCard('card-quiz');
+}
+
+function renderQuestion() {
+  const q = state.questions[state.currentQuestionIndex];
+  state.isAnswered = false;
+  state.selectedOption = null;
+
+  document.getElementById('quiz-progress-text').innerText = `Question ${state.currentQuestionIndex + 1} of 5`;
+  document.getElementById('quiz-topic-label').innerText = state.topic;
+  document.getElementById('progress-bar').style.width = `${(state.currentQuestionIndex + 1) * 20}%`;
+  document.getElementById('question-text').innerText = q.question;
+  
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+  const labels = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    container.innerHTML += `
+      <button id="opt-${i}" onclick="selectAnswer(${i})" class="w-full text-left flex items-center p-5 rounded-lg bg-surface-container-low border border-outline-variant/20 hover:bg-surface-container-high transition-all active:scale-[0.98]">
+        <div id="label-${i}" class="w-10 h-10 flex items-center justify-center rounded-full bg-primary-container text-on-primary-container font-headline font-bold mr-4">${labels[i]}</div>
+        <span class="text-lg font-medium text-on-surface">${opt}</span>
+        <span id="reveal-${i}" class="ml-auto font-bold text-sm hidden"></span>
+      </button>
+    `;
+  });
+  
+  // Populate hint immediately so it's ready if the user clicks help
+  const hintEl = document.getElementById('hint-container');
+  hintEl.innerHTML = `<em>Clue: ${q.hint}</em>`;
+  hintEl.classList.add('hidden');
+  
+  document.getElementById('explanation-container').classList.add('hidden');
+  document.getElementById('hint-trigger').classList.remove('hidden');
+  
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.classList.add('invisible');
+  nextBtn.innerHTML = (state.currentQuestionIndex === 4 ? 'See Results' : 'Next') + ' <span class="material-symbols-outlined">arrow_forward</span>';
+}
+
+function selectAnswer(index) {
+  if (state.isAnswered) return;
+  state.isAnswered = true;
+  state.selectedOption = index;
+  state.userAnswers.push(index);
+
+  const q = state.questions[state.currentQuestionIndex];
+  const isCorrect = (index === q.correct_index);
+
+  // Style the selected card
+  const selBtn = document.getElementById(`opt-${index}`);
+  const selLabel = document.getElementById(`label-${index}`);
+  
+  selBtn.classList.remove('bg-surface-container-low', 'border-outline-variant/20');
+  selBtn.classList.add('bg-primary-container', 'shadow-md');
+  selLabel.classList.remove('bg-primary-container', 'text-on-primary-container');
+  selLabel.classList.add('bg-on-surface', 'text-background');
+
+  // reveal correct answer label
+  const correctLabel = document.getElementById(`reveal-${q.correct_index}`);
+  if (correctLabel) {
+    correctLabel.innerText = "✓ Correct!";
+    correctLabel.classList.remove('hidden');
+    correctLabel.classList.add('text-primary');
+  }
+
+  // If wrong, show X on the selected option
+  if (!isCorrect) {
+    const wrongLabel = document.getElementById(`reveal-${index}`);
+    if (wrongLabel) {
+      wrongLabel.innerText = "✗ Not quite";
+      wrongLabel.classList.remove('hidden');
+    }
+    // Highlight the correct one with a border so it's obvious
+    const correctBtn = document.getElementById(`opt-${q.correct_index}`);
+    if (correctBtn) {
+      correctBtn.classList.add('border-2', 'border-primary');
+    }
+  } else {
+    // If correct, just a border reinforcement
+    if (selBtn) {
+      selBtn.classList.add('border-2', 'border-primary');
+    }
+  }
+
+  const hintEl = document.getElementById('hint-container');
+  hintEl.innerHTML = `<em>Clue: ${q.hint}</em>`;
+  
+  const expEl = document.getElementById('explanation-container');
+  expEl.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+  expEl.classList.remove('hidden');
+  
+  document.getElementById('hint-trigger').classList.add('hidden');
+  document.getElementById('next-btn').classList.remove('invisible');
+}
+
+function handleNext() {
+  if (state.currentQuestionIndex < 4) {
+    state.currentQuestionIndex++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+async function finishQuiz() {
+  showCard('card-loading');
+  document.getElementById('loading-msg').innerText = "Grading your quiz...";
+  updateSteps(4);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/session/evaluate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: state.sessionId, answers: state.userAnswers })
+    });
+    const data = await res.json();
+    
+    showCard('card-results');
+    
+    // Score Visual
+    const [scoreVal, totalVal] = data.score.split('/').map(Number);
+    const offset = 552.92 - (552.92 * (scoreVal / totalVal));
+    document.getElementById('score-circle').style.strokeDashoffset = offset;
+    document.getElementById('score-display').innerText = data.score;
+    
+    document.getElementById('feedback-headline').innerText = scoreVal >= 4 ? "Excellent Job!" : (scoreVal >= 2 ? "Almost there!" : "Keep Practicing!");
+    document.getElementById('overall-feedback').innerText = data.feedback;
+    
+    const list = document.getElementById('results-list');
+    list.innerHTML = '';
+    data.per_question.forEach((pq, i) => {
+      const q = state.questions[i];
+      const icon = pq.correct ? 'check_circle' : 'cancel';
+      const iconColor = pq.correct ? 'text-primary' : 'text-error';
+      const bgColor = pq.correct ? 'bg-primary/10' : 'bg-error/10';
+      
+      list.innerHTML += `
+        <div class="bg-surface-container-low p-6 rounded-lg flex gap-4 items-start">
+          <div class="mt-1 w-8 h-8 rounded-full ${bgColor} flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined ${iconColor} text-xl" style="font-variation-settings: 'FILL' 1;">${icon}</span>
+          </div>
+          <div class="flex-1">
+            <p class="font-headline font-semibold text-on-surface mb-3">${q.question}</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-surface-container-highest px-3 py-1 rounded-full text-xs font-label text-on-surface-variant">Your: ${q.options[state.userAnswers[i]]}</span>
+              <span class="bg-primary/10 px-3 py-1 rounded-full text-xs font-label text-primary font-semibold">Core: ${q.options[q.correct_index]}</span>
+            </div>
+            <p class="text-sm mt-3 text-on-surface-variant/70 italic">${pq.explanation}</p>
+          </div>
+        </div>
+      `;
+    });
+  } catch (e) {
+    alert('Evaluation error!');
+    showCard('card-quiz');
+  }
+}
+
+function toggleJson() {
+  const el = document.getElementById('json-preview');
+  el.classList.toggle('hidden');
+}
+</script>
+</body>
+</html>
