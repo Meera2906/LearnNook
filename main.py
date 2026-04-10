@@ -3,15 +3,26 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from schemas import SessionStartRequest, EvaluateRequest, SessionStartResponse, EvaluateResponse, MCQQuestion
 from prompts import build_explain_prompt, build_questions_prompt, build_evaluate_prompt
-import db, json
 from openai import AsyncOpenAI
+import db, json
 
 load_dotenv()
 
 app = FastAPI(title="LearnNook API")
+
+@app.get("/")
+async def root():
+    """Redirects the root URL to the student dashboard."""
+    return RedirectResponse(url="/static/index.html")
+
+@app.get("/favicon.ico")
+async def favicon():
+    """Returns an empty 204 to suppress favicon 404 errors."""
+    return Response(status_code=204)
 
 app.add_middleware(
     CORSMiddleware,
