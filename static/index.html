@@ -157,7 +157,7 @@
 <nav class="fixed top-0 left-0 right-0 z-50 glass-header border-b border-outline-variant/10">
   <div class="flex flex-col items-center w-full px-6 py-4 max-w-[640px] mx-auto">
     <div class="flex items-center justify-between w-full">
-      <div class="flex items-center gap-3">
+      <div id="app-logo" onclick="logoClick()" class="flex items-center gap-3 cursor-pointer select-none">
         <div class="bg-primary px-3 py-1 rounded-full shadow-sm">
           <span class="font-headline font-extrabold text-white tracking-tighter text-lg">LN</span>
         </div>
@@ -249,7 +249,7 @@
     <article class="bg-[#FFF5E0] p-8 rounded-lg border border-outline-variant/20 shadow-sm mb-12">
       <div id="explanation-text" class="text-on-surface-variant leading-relaxed text-lg space-y-4"></div>
     </article>
-    <div class="flex justify-start px-2 mb-10">
+    <div id="debug-container" class="hidden flex justify-start px-2 mb-10">
       <button onclick="toggleJson()" class="text-sm font-mono text-on-surface-variant/40 hover:text-primary transition-colors flex items-center gap-2">
         <span class="material-symbols-outlined text-sm">code</span> { } View JSON
       </button>
@@ -334,7 +334,8 @@ let state = {
   currentQuestionIndex: 0,
   userAnswers: [],
   isAnswered: false,
-  selectedOption: null
+  selectedOption: null,
+  logoClicks: 0
 };
 
 function showCard(id) {
@@ -345,6 +346,14 @@ function showCard(id) {
 function toggleHint() {
   const el = document.getElementById('hint-container');
   el.classList.toggle('hidden');
+}
+
+function logoClick() {
+  state.logoClicks++;
+  if (state.logoClicks === 7) {
+    document.getElementById('debug-container').classList.remove('hidden');
+    alert("Developer Mode Unlocked! 🛠️");
+  }
 }
 
 function formatExplanation(text) {
