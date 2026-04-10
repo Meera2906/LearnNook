@@ -6,11 +6,14 @@
 
 *An intelligent educational platform that transforms any topic into an immersive, interactive learning experience — powered by real-world photography and cutting-edge AI.*
 
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![Vercel](https://img.shields.io/badge/Live_Demo-learn--nook.vercel.app-000000?style=flat-square&logo=vercel)](https://learn-nook.vercel.app)
-[![Neon](https://img.shields.io/badge/Database-Neon_PostgreSQL-00E5BF?style=flat-square)](https://neon.tech)
-[![OpenRouter](https://img.shields.io/badge/AI-OpenRouter-FF6B35?style=flat-square)](https://openrouter.ai)
+[![Live Demo](https://img.shields.io/badge/🚀%20Launch%20App-learn--nook.vercel.app-8A2BE2?style=for-the-badge&logo=vercel&logoColor=white)](https://learn-nook.vercel.app)
+
+[![Tech Stack](https://skillicons.dev/icons?i=fastapi,python,postgres,vercel&theme=dark)](https://skillicons.dev)
+
+<p align="center">
+  <img src="https://img.shields.io/badge/AI-OpenRouter-FF6B35?style=flat-square" />
+  <img src="https://img.shields.io/badge/Database-Neon-00E5BF?style=flat-square" />
+</p>
 
 </div>
 
