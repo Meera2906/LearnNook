@@ -93,6 +93,11 @@ def generate_and_store_image(visual_query: str, fallback_topic: str) -> str | No
             print("No non-SVG results found.")
             return None
 
+        # VERCEL CHECK: Skip local storage if running on Vercel!
+        if os.getenv("VERCEL"):
+            print(f"Vercel detected: Serving remote image directly: {remote_url}")
+            return remote_url
+
         # Step 3: Download and store locally
         out_dir = Path("static/generated")
         out_dir.mkdir(parents=True, exist_ok=True)

@@ -5,3 +5,4 @@ pydantic
 python-dotenv
 aiofiles
 requests
+psycopg2-binary
