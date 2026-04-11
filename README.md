@@ -25,12 +25,14 @@
 - [Key Features](#key-features)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
+- [Sample Input & Output](#sample-input--output)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Local Development](#local-development)
 - [Deployment (Vercel + Neon)](#deployment-vercel--neon)
 - [Environment Variables](#environment-variables)
 - [Project Structure](#project-structure)
+- [Scale Considerations](#scale-considerations)
 - [License](#license)
 
 ---
@@ -109,6 +111,142 @@ LearnNook/
 ```
 
 > **Brick Path Principle** 🧱: On local development, images are downloaded and served from `static/generated/` for maximum speed and reliability. On Vercel, they are served directly from Wikimedia's global CDN for stateless compatibility.
+
+---
+
+## Sample Input & Output
+
+### Input
+
+```json
+{
+  "class_grade": "8th",
+  "subject": "Science",
+  "topic": "Photosynthesis"
+}
+```
+
+---
+
+### Output 1 — `POST /api/session/start`
+
+```json
+{
+  "session_id": "a3f2b1c9",
+  "cached": false,
+  "image_url": "https://upload.wikimedia.org/wikipedia/commons/.../Leaf_macro.jpg",
+  "explanation": "### The Secret Life of Leaves 🌿\n\nHave you ever wondered how a tree feeds itself without ever moving? Plants are master chefs — and their kitchen is a single leaf.\n\n---\n\n### The Core Concept ⚡\n\nPhotosynthesis is the process by which green plants use ==sunlight==, ==water==, and ==carbon dioxide== to produce their own food in the form of ==glucose==. This happens inside tiny structures called ==chloroplasts==, which contain a green pigment called ==chlorophyll== — the same thing that makes leaves green.\n\nThe equation looks like this:\n6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂\n\nIn plain English: the plant takes in carbon dioxide from the air through tiny pores called ==stomata==, absorbs water from the soil through its roots, and uses energy from sunlight to convert them into glucose (its food) and oxygen (which it releases back into the air).\n\n---\n\n### The Analogy 🍳\n\nThink of a leaf as a solar-powered kitchen. The chlorophyll acts like solar panels, capturing energy from the sun. The carbon dioxide and water are the raw ingredients. The glucose produced is the finished meal — and the oxygen released is like the steam that escapes while cooking.\n\n---\n\n### Real-World Application 🌍\n\nEvery breath you take is possible because of photosynthesis. The oxygen in Earth's atmosphere was produced by plants and algae over billions of years. Farmers also use this knowledge — they ensure crops get enough sunlight and water to maximise photosynthesis, directly increasing food yield.",
+  "questions": [
+    {
+      "question": "What are the three raw materials required for photosynthesis?",
+      "options": [
+        "Oxygen, glucose, and sunlight",
+        "Carbon dioxide, water, and sunlight",
+        "Nitrogen, water, and moonlight",
+        "Carbon dioxide, oxygen, and soil"
+      ],
+      "correct_index": 1,
+      "explanation": "Plants absorb CO₂ from the air, water from the soil, and capture light energy using chlorophyll — these three are converted into glucose and oxygen.",
+      "hint": "Think about what a plant absorbs from its environment to make food."
+    },
+    {
+      "question": "Where exactly inside a plant cell does photosynthesis take place?",
+      "options": [
+        "The nucleus",
+        "The mitochondria",
+        "The chloroplast",
+        "The cell wall"
+      ],
+      "correct_index": 2,
+      "explanation": "Chloroplasts contain chlorophyll, the pigment that captures sunlight. This is where the light reactions and the Calvin cycle both occur.",
+      "hint": "It's the green-coloured organelle."
+    },
+    {
+      "question": "What is the primary product of photosynthesis that the plant uses as food?",
+      "options": [
+        "Oxygen",
+        "Carbon dioxide",
+        "Water",
+        "Glucose"
+      ],
+      "correct_index": 3,
+      "explanation": "Glucose (C₆H₁₂O₆) is the sugar the plant synthesises and uses as its primary energy source for growth and cellular processes.",
+      "hint": "It's a type of sugar — the plant's energy currency."
+    },
+    {
+      "question": "A plant is placed in a dark room for 48 hours. What will most likely happen to the rate of photosynthesis?",
+      "options": [
+        "It will increase because the plant works harder",
+        "It will stay the same — light is not needed",
+        "It will stop completely because light energy is unavailable",
+        "It will slow down slightly but continue"
+      ],
+      "correct_index": 2,
+      "explanation": "Light is a fundamental raw material. Without it, chlorophyll cannot capture energy and the entire process halts — though the plant can survive short periods using stored glucose.",
+      "hint": "Consider what role light plays as an ingredient, not just a condition."
+    },
+    {
+      "question": "Farmers growing crops in greenhouses sometimes pump extra CO₂ into the air. Why?",
+      "options": [
+        "To keep pests away from the plants",
+        "To increase the rate of photosynthesis and boost yield",
+        "To replace the oxygen consumed by the plants",
+        "To keep the temperature inside stable"
+      ],
+      "correct_index": 1,
+      "explanation": "CO₂ is a limiting factor in photosynthesis. Increasing its concentration allows the plant to produce more glucose faster, directly improving crop growth and yield.",
+      "hint": "Think about what happens when you give a chef more of their key ingredient."
+    }
+  ]
+}
+```
+
+---
+
+### Output 2 — `POST /api/session/evaluate`
+
+**Request:**
+```json
+{
+  "session_id": "a3f2b1c9",
+  "answers": [1, 2, 3, 2, 1]
+}
+```
+
+**Response:**
+```json
+{
+  "score": "4/5",
+  "feedback": "Excellent work! You have a strong grasp of photosynthesis — from the raw materials right down to real-world applications. One small mix-up on the chloroplast question, but your understanding of the big picture is clear. Keep it up!",
+  "per_question": [
+    {
+      "correct": true,
+      "comment": "Perfect! You identified all three raw materials correctly.",
+      "explanation": "Carbon dioxide enters through stomata, water is absorbed via roots, and sunlight is captured by chlorophyll — all three are essential and cannot be substituted."
+    },
+    {
+      "correct": true,
+      "comment": "Spot on! The chloroplast is the powerhouse of photosynthesis.",
+      "explanation": "Chloroplasts are unique to plant cells and contain chlorophyll. The light-dependent reactions happen in the thylakoid membranes, and the Calvin cycle occurs in the stroma."
+    },
+    {
+      "correct": true,
+      "comment": "Great — glucose is the plant's food, not oxygen.",
+      "explanation": "Oxygen is a by-product released into the atmosphere. Glucose is retained by the plant and used for energy, growth, and stored as starch."
+    },
+    {
+      "correct": false,
+      "comment": "Not quite — darkness completely halts photosynthesis.",
+      "explanation": "Without light, chlorophyll cannot absorb energy, so neither the light-dependent nor light-independent reactions can proceed. The rate drops to zero, not just slows down."
+    },
+    {
+      "correct": true,
+      "comment": "Excellent real-world application thinking!",
+      "explanation": "CO₂ is often the limiting factor in photosynthesis. By increasing its concentration, farmers effectively remove that bottleneck, allowing plants to photosynthesise faster and produce more biomass."
+    }
+  ]
+}
+```
 
 ---
 
@@ -224,6 +362,26 @@ learnnook/
 ├── requirements.txt     # Python dependencies
 └── README.md            # This file
 ```
+
+---
+
+## Scale Considerations
+
+> **Assignment question: If 10,000 students use this daily — what breaks first, and how do you fix it?**
+
+**What breaks first:** The LLM API rate limits and per-minute token limits on OpenRouter/Gemini at peak load.
+
+At 10K students × 2 API calls (explain + questions) = ~20K calls/day with spikes hitting rate limits during school hours (9am–3pm).
+
+**Fixes, in order of priority:**
+
+| Problem | Fix |
+|---|---|
+| Repeated topic calls hitting the API | **Already implemented** — DB caching serves identical grade+subject+topic from Postgres instantly |
+| Peak hour rate limit spikes | **Async job queue** — Celery + Redis; students get a "preparing your lesson" screen while it processes |
+| Cost at scale | **Already using Gemini Flash Lite** — ~10× cheaper than GPT-4. Popular topics cached = near-zero marginal cost |
+| Wikimedia image fetch latency | **Pre-warm cache** — nightly cron job pre-generates lessons for the top 50 topics per grade |
+| Single Vercel instance bottleneck | **Horizontal scaling** — Vercel auto-scales functions; move to PostgreSQL connection pooling (Neon already supports this) |
 
 ---
 
