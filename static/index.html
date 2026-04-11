@@ -427,18 +427,38 @@ async function startLesson() {
     // Improved Image Loading Logic
     const img = document.getElementById('lesson-img');
     const fallback = document.getElementById('lesson-img-fallback');
-    
-    if (data.image_url) {
+
+    // Topic-keyword → curated fallback image map
+    // Used when the backend returns no image_url
+    const TOPIC_IMAGE_MAP = {
+      'photosynthesis': '/static/photosynthesis.png',
+    };
+
+    // Resolve image: prefer backend URL, then keyword map, then nothing
+    const topicKey = state.topic.toLowerCase().trim();
+    const topicFallbackUrl = Object.keys(TOPIC_IMAGE_MAP).find(k => topicKey.includes(k))
+      ? TOPIC_IMAGE_MAP[Object.keys(TOPIC_IMAGE_MAP).find(k => topicKey.includes(k))]
+      : null;
+
+    const imageToLoad = data.image_url || topicFallbackUrl;
+
+    if (imageToLoad) {
       img.onload = () => {
         img.classList.remove('hidden');
         fallback.classList.add('hidden');
       };
       img.onerror = () => {
-        img.classList.add('hidden');
-        fallback.classList.remove('hidden');
-        console.error("Failed to load image:", data.image_url);
+        // If primary URL fails and we have a topicFallback that's different, try it
+        if (data.image_url && topicFallbackUrl && img.src !== window.location.origin + topicFallbackUrl) {
+          console.warn("Primary image failed, trying topic fallback:", topicFallbackUrl);
+          img.src = topicFallbackUrl;
+        } else {
+          img.classList.add('hidden');
+          fallback.classList.remove('hidden');
+          console.error("Failed to load image:", imageToLoad);
+        }
       };
-      img.src = data.image_url;
+      img.src = imageToLoad;
     } else {
       img.classList.add('hidden');
       fallback.classList.remove('hidden');
